@@ -23,9 +23,6 @@ import { Download, Calculator, ShoppingCart, Mail, Phone, CheckCircle2, Ruler } 
 
 // --- БИЗНЕС НАСТРОЙКИ ---
 const BUSINESS_EMAIL = "pharshev@gmail.com";
-// URL към Google Apps Script Web App (ще запише в Google Sheet и ще качи файлове в Drive)
-const RAW_FORM_ENDPOINT = process.env.NEXT_PUBLIC_FORM_ENDPOINT || ""; // взима от .env.local
-const FORM_ENDPOINT = "https://script.google.com/macros/s/AKfycbxx-jLpcWWu9vmxyNzrGBzzJjPUamLUEsOtZ0x4aLHIA7cMf-3ZHwCAex7ojL6sQbSiXg/exec";
 // --- ПРИНТЕРИ ---
 const PRINTERS = {
   FDM_Ender3Pro: {
@@ -220,7 +217,7 @@ export default function Site3DandLaser(){
 
   // Проверка на формения endpoint (GAS Web App)
   const endpointStatus = useMemo(()=>{
-    const u = FORM_ENDPOINT;
+    const u = process.env.NEXT_PUBLIC_FORM_ENDPOINT
     if(!u) return 'missing' as const;
     const ok = /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec$/.test(u.trim());
     return ok ? ('ok' as const) : ('bad' as const);
@@ -301,7 +298,7 @@ export default function Site3DandLaser(){
     const contact = contactRaw.replace(/\n/g, "%0D%0A");
     const subject = encodeURIComponent("Запитване/Поръчка – 3D печат и лазерно гравиране");
     const body = `${lines}%0D%0A%0D%0A${contact}`;
-    return `mailto:${BUSINESS_EMAIL}?subject=${subject}&body=${body}`;
+    return `mailto:${process.env.NEXT_PUBLIC_BUSINESS_EMAIL}?subject=${subject}&body=${body}`;
   }
 
   const sampleProducts = [
@@ -410,14 +407,14 @@ export default function Site3DandLaser(){
       <section id="prices" className="max-w-6xl mx-auto px-4 py-8">
         <h2 className="text-2xl font-semibold mb-4">Примерни цени</h2>
         <div className="grid md:grid-cols-2 gap-4 text-sm">
-          <Card className="bg-zinc-900 border-zinc-800"><CardHeader><CardTitle className="text-base">3D печат (FDM vs Resin)</CardTitle><CardDescription>Ориентировъчно при стандартни настройки.</CardDescription></CardHeader><CardContent>
+          <Card className="bg-zinc-900 border-zinc-800"><CardHeader><CardTitle className="text-base text-white">3D печат (FDM vs Resin)</CardTitle><CardDescription>Ориентировъчно при стандартни настройки.</CardDescription></CardHeader><CardContent>
             <ul className="list-disc pl-5 space-y-1 text-zinc-300">
               <li>Ключодържател 50×20×5 mm — FDM ~ 10–15 лв., Resin ~ 18–25 лв.</li>
               <li>Стойка за телефон 120×70×60 mm — FDM ~ 18–28 лв., Resin ~ 28–45 лв.</li>
               <li>Фигурка 90×50×50 mm — FDM ~ 16–24 лв., Resin ~ 26–40 лв.</li>
             </ul>
           </CardContent></Card>
-          <Card className="bg-zinc-900 border-zinc-800"><CardHeader><CardTitle className="text-base">Лазерно гравиране</CardTitle><CardDescription>Setup + цена/см² + сложност.</CardDescription></CardHeader><CardContent>
+          <Card className="bg-zinc-900 border-zinc-800"><CardHeader><CardTitle className="text-base text-white">Лазерно гравиране</CardTitle><CardDescription>Setup + цена/см² + сложност.</CardDescription></CardHeader><CardContent>
             <ul className="list-disc pl-5 space-y-1 text-zinc-300">
               <li>Дъска от бук 200×300 mm (600 см²) — ~ {money(6 + 600*0.10)}</li>
               <li>Неръжд. табелка 50×200 mm (100 см²) — ~ {money(12 + 100*0.25)}</li>
@@ -438,7 +435,7 @@ export default function Site3DandLaser(){
           ].map((s, i)=> (
             <Card key={i} className="bg-zinc-900 border-zinc-800">
               <CardHeader>
-                <CardTitle className="text-lg">{s.title}</CardTitle>
+                <CardTitle className="text-lg text-white">{s.title}</CardTitle>
                 <CardDescription>{s.tag}</CardDescription>
               </CardHeader>
               <CardContent>
@@ -539,7 +536,7 @@ export default function Site3DandLaser(){
         <h2 className="text-2xl font-semibold mb-4">Контакт и данни за клиента</h2>
         <Card className="bg-zinc-900 border-zinc-800">
           <CardHeader>
-            <CardTitle className="text-lg">Остави данни и изпрати запитване</CardTitle>
+            <CardTitle className="text-lg text-white">Остави данни и изпрати запитване</CardTitle>
                         {endpointStatus!=='ok' && (
               <div className="mt-2 text-yellow-400 text-sm">
                 {endpointStatus==='missing'
@@ -549,24 +546,24 @@ export default function Site3DandLaser(){
             )}
           </CardHeader>
           <CardContent className="grid md:grid-cols-3 gap-4">
-            <div><Label>Име</Label><Input value={name} onChange={e=> setName(e.target.value)} className="mt-1" placeholder="Пълно име"/></div>
-            <div><Label>Имейл</Label><Input type="email" value={email} onChange={e=> setEmail(e.target.value)} className="mt-1" placeholder="you@example.com"/></div>
-            <div><Label>Телефон</Label><Input value={phone} onChange={e=> setPhone(e.target.value)} className="mt-1" placeholder="08xx xxx xxx"/></div>
-            <div className="md:col-span-3"><Label>Забележки към поръчката</Label><Textarea value={notes} onChange={e=> setNotes(e.target.value)} className="mt-1" placeholder="Цвят, срок, референции, линкове…"/></div>
+            <div><Label className="text-white">Име</Label><Input value={name} onChange={e=> setName(e.target.value)} className="mt-1 text-white" placeholder="Пълно име"/></div>
+            <div><Label className="text-white">Имейл</Label><Input type="email" value={email} onChange={e=> setEmail(e.target.value)} className="mt-1 text-white" placeholder="you@example.com"/></div>
+            <div><Label className="text-white">Телефон</Label><Input value={phone} onChange={e=> setPhone(e.target.value)} className="mt-1 text-white" placeholder="08xx xxx xxx"/></div>
+            <div className="md:col-span-3"><Label className="text-white">Забележки към поръчката</Label><Textarea value={notes} onChange={e=> setNotes(e.target.value)} className="mt-1 text-white" placeholder="Цвят, срок, референции, линкове…"/></div>
             <div className="md:col-span-3">
-              <Label>Файлове към запитването (.stl, .obj, .step, .3mf, .pdf, .jpg, .png)</Label>
-              <Input ref={uploadRef} type="file" multiple accept=".stl,.obj,.step,.3mf,.pdf,.jpg,.jpeg,.png" className="mt-1"/>
+              <Label className="text-white">Файлове към запитването (.stl, .obj, .step, .3mf, .pdf, .jpg, .png)</Label>
+              <Input ref={uploadRef} type="file" multiple accept=".stl,.obj,.step,.3mf,.pdf,.jpg,.jpeg,.png" className="mt-1 text-white"/>
               <p className="text-xs text-zinc-400 mt-1">Можеш да прикачиш няколко файла. Максимумът зависи от настройката на сървъра.</p>
             </div>
           </CardContent>
           <CardFooter className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
-            <div className="text-sm">Текуща сума: <span className="font-semibold">{money(cartTotal)}</span> ({cart.length} артикула)</div>
+            <div className="text-sm text-white">Текуща сума: <span className="font-semibold">{money(cartTotal)}</span> ({cart.length} артикула)</div>
             <div className="flex gap-2">
-              <Button variant="outline" onClick={()=> downloadText(`kalkulacia-${Date.now()}.txt`, JSON.stringify({ name, email, phone, notes, cart, total: cartTotal }, null, 2))}><Download className="h-4 w-4 mr-1"/>Изтегли оферта</Button>
+              <Button variant="outline" onClick={()=> downloadText(`kalkulacia-${Date.now()}.txt`, JSON.stringify({ name, email, phone, notes, cart, total: cartTotal }, null, 2))} className="text-white hover:text-black"><Download className="h-4 w-4 mr-1"/>Изтегли оферта</Button>
               <a href={buildEmailBody()}><Button><Mail className="h-4 w-4 mr-1"/>Изпрати по имейл</Button></a>
               <Button variant="secondary" onClick={async ()=>{
-                if(!FORM_ENDPOINT){ alert('Няма настроен FORM_ENDPOINT (Web App /exec).'); return; }
-                const isValid = FORM_ENDPOINT.startsWith('https://script.google.com/macros/s/') && FORM_ENDPOINT.endsWith('/exec');
+                if(!process.env.NEXT_PUBLIC_FORM_ENDPOINT){ alert('Няма настроен FORM_ENDPOINT (Web App /exec).'); return; }
+                const isValid = process.env.NEXT_PUBLIC_FORM_ENDPOINT.startsWith('https://script.google.com/macros/s/') && process.env.NEXT_PUBLIC_FORM_ENDPOINT.endsWith('/exec');
                 if(!isValid){ alert('FORM_ENDPOINT трябва да завършва на /exec'); return; }
                 try{
                   const body = new URLSearchParams({
@@ -575,7 +572,7 @@ export default function Site3DandLaser(){
                     total: String(cartTotal),
                     cart: JSON.stringify(cart)
                   });
-                  await fetch(FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body, mode: 'no-cors' });
+                  await fetch(process.env.NEXT_PUBLIC_FORM_ENDPOINT, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body, mode: 'no-cors' });
                   alert('Изпратено (без файлове). Провери Google Sheet таба.');
                 }catch(err){
                   alert(`Грешка при изпращане: ${String(err)}`);
@@ -591,7 +588,7 @@ export default function Site3DandLaser(){
       <section className="max-w-6xl mx-auto px-4 pb-2">
         <Card className="bg-zinc-900 border-zinc-800">
           <CardHeader>
-            <CardTitle className="text-base">Самопроверка (тестове)</CardTitle>
+            <CardTitle className="text-base text-white">Самопроверка (тестове)</CardTitle>
             <CardDescription>Проверка на ограниченията и формулите.</CardDescription>
           </CardHeader>
           <CardFooter className="flex gap-2">
@@ -628,7 +625,7 @@ export default function Site3DandLaser(){
         <div className="max-w-6xl mx-auto px-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             © {new Date().getFullYear()} 3D • LASER • BG — Изработка по поръчка
-            <div className="mt-1">Имейл за поръчки: <span className="underline">{BUSINESS_EMAIL}</span></div>
+            <div className="mt-1">Имейл за поръчки: <span className="underline">{process.env.NEXT_PUBLIC_BUSINESS_EMAIL}</span></div>
             <div>Локация: Плевен/Пордим — изпращам с куриер в цялата страна</div>
           </div>
           <div className="flex items-center gap-2"><Ruler className="h-4 w-4"/><span>Политика за лични данни & условия (линкове за добавяне)</span></div>
