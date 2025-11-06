@@ -1,0 +1,25 @@
+[
+  {
+    "id": "1762425033446",
+    "src": "/home/home-1762425033446.jpg",
+    "active": true,
+    "isHero": true,
+    "createdAt": "2025-11-06T10:30:33.447Z"
+  },
+  {
+    "id": "1762425046940",
+    "src": "/home/home-1762425046940.jpg",
+    "active": true,
+    "isHero": false,
+    "createdAt": "2025-11-06T10:30:46.941Z",
+    "title": "Стойка за серво машинка"
+  },
+  {
+    "id": "1762425656930",
+    "title": "Стойка за серво машинка за рул за лодка за захранка",
+    "src": "/home/home-1762425656930.jpg",
+    "active": true,
+    "isHero": false,
+    "createdAt": "2025-11-06T10:40:56.932Z"
+  }
+]

@@ -1,0 +1,24 @@
+﻿@import "tailwindcss";
+
+/* твои глобални класове */
+:root { color-scheme: dark; }
+html, body { background: #0b0b0b; color: #fff; }
+.container { max-width: 1180px; margin: 0 auto; padding: 0 16px; }
+a { transition: color .15s ease, border-color .15s ease, opacity .15s ease; }
+.btn { display:inline-flex; align-items:center; justify-content:center; height:40px; padding:0 14px; border-radius:10px; }
+.btn-outline { border:1px solid rgba(250, 4, 4, 0.12); } /* цвят на рамката на Услуга , продукт , запитване */
+.btn-outline:hover { border-color: rgba(255,255,255,.5); }
+.card { border:1px solid rgba(247, 5, 5, 0.08); border-radius:16px; background: rgba(255,255,255,.02); } /* цвят на рамката на снимките */
+.text-muted { color: rgba(255,255,255,.7); }
+@keyframes cart-bump {
+  0%   { transform: scale(1);   }
+  20%  { transform: scale(1.12);}
+  60%  { transform: scale(0.98);}
+  100% { transform: scale(1);   }
+}
+.cart-bump {
+  animation: cart-bump 0.35s ease-out;
+}
+button:active {
+  transform: translateY(1px);
+}

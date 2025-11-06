@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1762262165293",
+    "title": "Бюст на Батман",
+    "slug": "batman",
+    "desc": "3д принтиран бюст на Батман , подходящ за декорация , изработен от PETg филамент ",
+    "dimensions": "25х10х17",
+    "price": 35,
+    "currency": "лв",
+    "promoPercent": 10,
+    "promoUntil": "2025-11-30",
+    "image": "/uploads/batman-1762262165294.jpg",
+    "active": true
+  },
+  {
+    "id": "1762324026718",
+    "title": "Ваза",
+    "slug": "Vaza",
+    "desc": "3д принтирана Ваза за цветя или други разтения ",
+    "dimensions": "20х10х5",
+    "price": 15,
+    "currency": "лв",
+    "image": "/uploads/Vaza-1762324026720.png",
+    "active": true
+  }
+]
